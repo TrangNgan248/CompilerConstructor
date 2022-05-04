@@ -29,6 +29,7 @@ typedef enum {
 
 typedef struct {
   char string[MAX_IDENT_LEN + 1];
+  // char string[1000];
   int lineNo, colNo;
   TokenType tokenType;
   int value;

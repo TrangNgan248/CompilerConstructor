@@ -213,11 +213,11 @@ Token *getToken(void)
   case CHAR_PERIOD:
     token = makeToken(SB_PERIOD, lineNo, colNo);
     readChar();
-    if (currentChar == ')')
-    {
-      token->tokenType = SB_RSEL;
-      readChar();
-    }
+    // if (currentChar == ')')
+    // {
+    //   token->tokenType = SB_RSEL;
+    //   readChar();
+    // }
     return token;
   case CHAR_COLON:
     token = makeToken(SB_COLON, lineNo, colNo);
@@ -238,19 +238,32 @@ Token *getToken(void)
   case CHAR_LPAR:
     token = makeToken(SB_LPAR, lineNo, colNo);
     readChar();
-    switch (currentChar)
+    if (currentChar == '*')
     {
-    case '.':
-      token->tokenType = SB_LSEL;
-      readChar();
-      break;
-    case '*':
       skipComment();
       getToken();
     }
+    // switch (currentChar)
+    // {
+    // case '.':
+    //   token->tokenType = SB_LSEL;
+    //   readChar();
+    //   break;
+    // case '*':
+    //   skipComment();
+    //   getToken();
+    // }
     return token;
   case CHAR_RPAR:
     token = makeToken(SB_LPAR, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_LSQUARE:
+    token = makeToken(SB_LSEL, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_RSQUARE:
+    token = makeToken(SB_RSEL, lineNo, colNo);
     readChar();
     return token;
   default:
@@ -450,7 +463,7 @@ int scan(char *fileName)
 
 int main()
 {
-  if (scan("example2.kpl") == IO_ERROR)
+  if (scan("example3.kpl") == IO_ERROR)
   {
     printf("Can\'t read input file!\n");
   }

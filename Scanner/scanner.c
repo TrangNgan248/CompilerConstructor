@@ -153,6 +153,8 @@ Token *getToken(void)
     return getToken();
   case CHAR_LETTER:
     return readIdentKeyword();
+  case CHAR_UNDERSCORE:
+    return readIdentKeyword();
   case CHAR_DIGIT:
     return readNumber();
   case CHAR_PLUS:
@@ -249,10 +251,6 @@ Token *getToken(void)
     return token;
   case CHAR_RPAR:
     token = makeToken(SB_LPAR, lineNo, colNo);
-    readChar();
-    return token;
-  case CHAR_UNDERSCORE:
-    token = makeToken(SB_UNDERSCORE, lineNo, colNo);
     readChar();
     return token;
   default:
@@ -452,7 +450,7 @@ int scan(char *fileName)
 
 int main()
 {
-  if (scan("example3.kpl") == IO_ERROR)
+  if (scan("example2.kpl") == IO_ERROR)
   {
     printf("Can\'t read input file!\n");
   }

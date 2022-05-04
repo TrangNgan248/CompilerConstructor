@@ -289,11 +289,11 @@ Token *getToken(void)
   case CHAR_LPAR:
     token = makeToken(SB_LPAR, lineNo, colNo);
     readChar();
-    if (currentChar == '*')
-    {
-      skipComment();
-      getToken();
-    }
+    // if (currentChar == '*')
+    // {
+    //   skipComment();
+    //   getToken();
+    // }
     // switch (currentChar)
     // {
     // case '.':

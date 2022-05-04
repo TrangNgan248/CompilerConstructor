@@ -65,7 +65,7 @@ Token *readIdentKeyword(void)
   // TODO
   Token *token = makeToken(TK_IDENT, lineNo, colNo);
   int i = 0;
-  while (currentChar != NULL && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT))
+  while (currentChar != NULL && (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT || charCodes[currentChar] == CHAR_UNDERSCORE))
   {
     token->string[i] = (char)currentChar;
     i++;
@@ -249,6 +249,10 @@ Token *getToken(void)
     return token;
   case CHAR_RPAR:
     token = makeToken(SB_LPAR, lineNo, colNo);
+    readChar();
+    return token;
+  case CHAR_UNDERSCORE:
+    token = makeToken(SB_UNDERSCORE, lineNo, colNo);
     readChar();
     return token;
   default:

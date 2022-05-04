@@ -8,8 +8,8 @@
 Thay the cac luat tu vung trong project1 bang cac luat sau:
 Luat cho dinh danh:
 Dinh danh bao gom chu cai (hoa, thuong), chu so va dau gach duoi(_)
-1.Ky tu dau la chu cai hoac dau gach duoi 
-2.Dinh danh khong duoc trung voi tu khoa. 
+1.Ky tu dau la chu cai hoac dau gach duoi
+2.Dinh danh khong duoc trung voi tu khoa.
 3.Khong gioi han ve do dai nhung chi phan biet 15 ky tu dau
 4.Dinh danh khong phan biet chu hoa/chu thuong
 Luat cho tu khoa:
@@ -51,30 +51,41 @@ void skipBlank()
 void skipComment()
 {
   // TODO
-  int state = 0;
-  readChar();
-  while (currentChar != EOF && state < 2)
+  if (charCodes[currentChar] == CHAR_TIMES)
   {
-    if (charCodes[currentChar] == CHAR_TIMES)
+    int state = 0;
+    readChar();
+    while (currentChar != EOF && state < 2)
     {
-      state = 1;
+      if (charCodes[currentChar] == CHAR_TIMES)
+      {
+        state = 1;
+      }
+      else if (charCodes[currentChar] == CHAR_SLASH)
+      {
+        if (state == 1)
+        {
+          state = 2;
+        }
+        else
+        {
+          state = 0;
+        }
+      }
+      readChar();
     }
-    else if (charCodes[currentChar] == CHAR_SLASH)
+    if (state != 2)
     {
-      if (state == 1)
-      {
-        state = 2;
-      }
-      else
-      {
-        state = 0;
-      }
+      error(ERR_ENDOFCOMMENT, lineNo, colNo);
+    }
+  }
+  if (charCodes[currentChar] == CHAR_SLASH)
+  {
+    while (currentChar != '\n')
+    {
+      readChar();
     }
     readChar();
-  }
-  if (state != 2)
-  {
-    error(ERR_ENDOFCOMMENT, lineNo, colNo);
   }
 }
 
@@ -241,11 +252,22 @@ Token *getToken(void)
   case CHAR_SLASH:
     token = makeToken(SB_SLASH, lineNo, colNo);
     readChar();
-       if (currentChar == '*')
+    switch (currentChar)
     {
+    case '*':
       skipComment();
       getToken();
+      break;
+    case '/':
+      skipComment();
+      getToken();
+      break;
     }
+    // if (currentChar == '*')
+    // {
+    //   skipComment();
+    //   getToken();
+    // }
     return token;
   case CHAR_LT:
     token = makeToken(SB_LT, lineNo, colNo);

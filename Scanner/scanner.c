@@ -111,31 +111,82 @@ Token *readNumber(void)
 Token *readConstChar(void)
 {
   // TODO
-  Token *token = makeToken(TK_CHAR, lineNo, colNo);
+  // Token *token = makeToken(TK_CHAR, lineNo, colNo);
+  // readChar();
+
+  // if (currentChar == EOF)
+  // {
+  //   token->tokenType = TK_NONE;
+  //   error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+  //   return token;
+  // }
+
+  // token->string[0] = currentChar;
+  // token->string[1] = '\0';
+  // readChar();
+
+  // if (charCodes[currentChar] != CHAR_SINGLEQUOTE)
+  // {
+  //   token->tokenType = TK_NONE;
+  //   error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+  //   return token;
+  // }
+  // else
+  // {
+  //   readChar();
+  //   return token;
+  // }
+  int count = 0;
+  Token *token = makeToken(TK_NONE, lineNo, colNo);
   readChar();
 
-  if (currentChar == EOF)
+  while (charCodes[currentChar] != CHAR_UNKNOWN || charCodes[currentChar] != CHAR_RPAR)
   {
-    token->tokenType = TK_NONE;
-    error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
-    return token;
+    if (charCodes[currentChar] == CHAR_SINGLEQUOTE)
+    {
+      readChar();
+      switch (charCodes[currentChar])
+      {
+      case CHAR_SINGLEQUOTE:
+        token->string[count] = currentChar;
+        count++;
+        readChar();
+        break;
+      case CHAR_RPAR:
+        goto goal;
+        break;
+      default:
+        error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+        break;
+      }
+    }
+    else
+    {
+      token->string[count] = currentChar;
+      count++;
+      readChar();
+    }
   }
+goal:
+  token->string[count] = '\0';
 
-  token->string[0] = currentChar;
-  token->string[1] = '\0';
-  readChar();
-
-  if (charCodes[currentChar] != CHAR_SINGLEQUOTE)
+  if (count > 255)
   {
-    token->tokenType = TK_NONE;
-    error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
-    return token;
+    error(ERR_INVALIDCHARCONSTANT, lineNo, colNo - count);
   }
   else
   {
-    readChar();
-    return token;
+    if (count == 1)
+      token->tokenType = TK_CHAR;
+    else
+      token->tokenType = TK_CONST_CHAR;
+    TokenType type = checkKeyword(token->string);
+    if (type != TK_NONE)
+    {
+      token->tokenType = type;
+    }
   }
+  return token;
 }
 
 Token *getToken(void)
@@ -294,6 +345,9 @@ void printToken(Token *token)
     break;
   case TK_CHAR:
     printf("TK_CHAR(\'%s\')\n", token->string);
+    break;
+  case TK_CONST_CHAR:
+    printf("TK_CONST_CHAR(\'%s\')\n", token->string);
     break;
   case TK_EOF:
     printf("TK_EOF\n");

@@ -4,6 +4,24 @@
  * @version 1.0
  */
 
+/* Đề bài:
+Thay the cac luat tu vung trong project1 bang cac luat sau:
+Luat cho dinh danh:
+Dinh danh bao gom chu cai (hoa, thuong), chu so va dau gach duoi(_)
+1.Ky tu dau la chu cai hoac dau gach duoi 
+2.Dinh danh khong duoc trung voi tu khoa. 
+3.Khong gioi han ve do dai nhung chi phan biet 15 ky tu dau
+4.Dinh danh khong phan biet chu hoa/chu thuong
+Luat cho tu khoa:
+Tu khoa phai dung chu thuong
+Luat cho chu thich:
+Bo chu thich giua (* va  *). Chap nhan ca chu thich tren 1 dong, bat dau tu //, chu thich tren nhieu dong :  Giua /* va */
+/* Luat cho cac ky hieu dac biet:
+Chi so de trong cap ngoac vuong [ ] thay vi (.  .)
+Luat cho hang ky tu?xau ky tu:
+Hang xau ky tu duoc phep trong KPL. Mot hang xau ky tu co the chua mot chuoi cac ky tu in duoc, do dai khong qua 255, duoc dat trong cap dau nhay don. Neu dau nhay don duoc viet trong hang xau ky tu, phai viet 2 lan.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "reader.h"

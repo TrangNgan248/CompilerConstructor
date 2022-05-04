@@ -41,7 +41,7 @@ void skipComment()
     {
       state = 1;
     }
-    else if (charCodes[currentChar] == CHAR_RPAR)
+    else if (charCodes[currentChar] == CHAR_SLASH)
     {
       if (state == 1)
       {
@@ -223,6 +223,11 @@ Token *getToken(void)
   case CHAR_SLASH:
     token = makeToken(SB_SLASH, lineNo, colNo);
     readChar();
+       if (currentChar == '*')
+    {
+      skipComment();
+      getToken();
+    }
     return token;
   case CHAR_LT:
     token = makeToken(SB_LT, lineNo, colNo);

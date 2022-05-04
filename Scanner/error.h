@@ -12,7 +12,7 @@ typedef enum {
   ERR_IDENTTOOLONG,
   ERR_INVALIDCHARCONSTANT,
   ERR_INVALIDSYMBOL,
-  ERR_NUMBERTOOLONG
+  ERR_NUMBERTOOBIG
 } ErrorCode;
 
 
@@ -20,8 +20,8 @@ typedef enum {
 #define ERM_IDENTTOOLONG "Identification too long!"
 #define ERM_INVALIDCHARCONSTANT "Invalid const char!"
 #define ERM_INVALIDSYMBOL "Invalid symbol!"
-#define ERM_NUMBERTOOLONG "Number too long!"
+#define ERM_NUMBERTOOBIG "Number too big!"
 
-void error(FILE* f,ErrorCode err, int lineNo, int colNo);
+void error(ErrorCode err, int lineNo, int colNo);
 
 #endif

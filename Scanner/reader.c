@@ -21,7 +21,7 @@ int readChar(void) {
   return currentChar;
 }
 
-openInputStream(char *fileName) {
+openInputStream(char* fileName) {
   inputStream = fopen(fileName, "rt");
     if (inputStream == NULL)
     {printf("Khong thay");return IO_ERROR;}

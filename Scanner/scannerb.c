@@ -100,7 +100,8 @@ Token *readNumber(void)
   }
 
   token->string[i] = '\0';
-  token->value = atol(token->string);
+  token->value = strtol(token->string, 0, 10);
+
   if (token->value >= INT_MAX)
   {
     error(ERR_NUMBERTOOBIG, lineNo, colNo);
@@ -448,9 +449,64 @@ int scan(char *fileName)
 
 int main()
 {
-  if (scan("example3.kpl") == IO_ERROR)
+  int choice = 0;
+  do
   {
-    printf("Can\'t read input file!\n");
-  }
-  return 0;
+    printf("\n1. Error 1: End of comment expected!");
+    printf("\n2. Error 2: Identification too long!");
+    printf("\n3. Error 3: Invalid const char!");
+    printf("\n4. Error 4: Invalid symbol!");
+    printf("\n5. Error 5: Number too big!");
+    printf("\n6. No error.");
+    printf("\nEnter your choice: ");
+    scanf("%d", &choice);
+    switch (choice)
+    {
+    case 1:
+      if (scan("error1.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      return 0;
+      break;
+    case 2:
+      if (scan("error2.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      return 0;
+      break;
+    case 3:
+      if (scan("error3.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      return 0;
+      break;
+    case 4:
+      if (scan("error4.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      return 0;
+      break;
+    case 5:
+      if (scan("error5.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      return 0;
+      break;
+    case 6:
+      if (scan("example3.kpl") == IO_ERROR)
+      {
+        printf("Can\'t read input file!\n");
+      }
+      break;
+    default:
+      printf("Your choice doesn't exist. Please enter another choice.");
+      break;
+    }
+
+  } while (choice != 6);
 }

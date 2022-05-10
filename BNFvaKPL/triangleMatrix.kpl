@@ -1,0 +1,28 @@
+PROGRAM TriangleMatrix;
+
+Var n: integer;
+    x: integer; (* toa do x *)
+    y: integer; (* toa do y *)
+    A: array (.20.) of array (.20.) of integer;
+    state: integer;
+
+PROCEDURE Input;
+    Var i: integer; (* toa do x *)
+        j: integer; (* toa do y *)
+    Begin
+        n := READI;
+        for i := 0 to n do 
+            for j := 0 to n do
+                A(.i.)(.j.) := READI;
+    End;
+
+BEGIN
+    Call Input;
+    state := 1;
+    while state = 1 do 
+        for x:= 1 to n do
+            for y:= 0 to x-1 do
+                if A(.x.)(.y.) != 0 then
+                    state := 0;
+    if state = 1 then CALL WRITEI(1) else CALL WRITEI(0);
+END.

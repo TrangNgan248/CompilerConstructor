@@ -177,9 +177,29 @@ void compileSubDecls(void) {
   assert("Subtoutines parsed ....");
 }
 
+// Follow (FunDecls) = First(Block5) = KW_PROCEDURE, KW_BEGIN
+// FunDecls = FunDecl FunDecls
+// FunDecls = eps
+void compileFunDecls(void){
+  assert("Parsing a function ....");
+  switch (lookAhead->tokenType) {
+  case KW_FUNCTION:
+      compileFuncDecl();
+      break;
+  //Follow
+  case KW_PROCEDURE:
+  case KW_BEGIN:
+      break;
+  default:
+      error(ERR_INVALIDFUNDECL, lookAhead->lineNo, lookAhead->colNo);
+      break;
+  }
+  assert("Function parsed ....");
+}
+
 // 22) FunDecl ::= KW_FUNCTION Ident Params SB_COLON BasicType SB_SEMICOLON Block SB_SEMICOLON
 void compileFuncDecl(void) {
-  assert("Parsing a function ....");
+  
   // TODO
   eat(KW_FUNCTION);
   eat(TK_IDENT);
@@ -188,8 +208,7 @@ void compileFuncDecl(void) {
   compileBasicType();
   eat(SB_SEMICOLON);
   compileBlock();
-  eat(SB_SEMICOLON);
-  assert("Function parsed ....");
+  eat(SB_SEMICOLON); 
 }
 
 

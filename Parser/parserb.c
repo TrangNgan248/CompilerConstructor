@@ -87,8 +87,18 @@ void compileBlock4(void) {
   else compileBlock5();
 }
 
-// 09) Block5 ::= KW_BEGIN Statements KW_END
+// 08) Block5 ::= ProcDecls Block6
+// Block5 ::= Block6
 void compileBlock5(void) {
+  if (lookAhead->tokenType == KW_PROCEDURE) {
+    compileProcDecl();
+    compileBlock6();
+  } 
+  else compileBlock6();
+}
+
+// 09) Block6 ::= KW_BEGIN Statements KW_END
+void compileBlock6(void) {
   eat(KW_BEGIN);
   compileStatements();
   eat(KW_END);

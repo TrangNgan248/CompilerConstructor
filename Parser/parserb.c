@@ -11,6 +11,18 @@
 #include "parser.h"
 #include "error.h"
 
+// Gia su cu phap cua Block4 va Block5 thay doi nhu sau:
+// Block4 ::= FunDecls Block5 
+// Block4 ::= Block5
+// Block5 ::= ProcDecls Block6 
+// Block5 ::= Block6
+// FunDecls::= FunDecl FunDecls
+// FunDecls::= eps
+// ProcDecls::= ProcDecl  ProcDecls
+// ProcDecls ::= eps
+// Block6 ::= KW_BEGIN Statements KW_END
+// Viet lai cac ham lien quan sao cho phu hop voi tap luat moi.
+
 Token *currentToken;
 Token *lookAhead;
 

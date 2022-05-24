@@ -27,7 +27,7 @@ typedef enum {
   ERR_INVALIDTYPEDECL,
   ERR_INVALIDVARDECL,
   ERR_INVALIDSUBDECL,
-  ERR_INVALIDFUNDECL,
+  ERR_INVALIDFUNCDECL,
   ERR_INVALIDPROCDECL,
 } ErrorCode;
 
@@ -50,7 +50,7 @@ typedef enum {
 #define ERM_INVALIDTYPEDECL "Invalid type declaration!"
 #define ERM_INVALIDVARDECL "Invalid variable declaration!"
 #define ERM_INVALIDSUBDECL "Invalid subroutine declaration!"
-#define ERM_INVALIDFUNDECL "Invalid function declaration!"
+#define ERM_INVALIDFUNCDECL "Invalid function declaration!"
 #define ERM_INVALIDPROCDECL "Invalid procedure declaration!"
 
 void error(ErrorCode err, int lineNo, int colNo);

@@ -191,7 +191,7 @@ void compileFunDecls(void){
   case KW_BEGIN:
       break;
   default:
-      error(ERR_INVALIDFUNDECL, lookAhead->lineNo, lookAhead->colNo);
+      error(ERR_INVALIDFUNCDECL, lookAhead->lineNo, lookAhead->colNo);
       break;
   }
   assert("Function parsed ....");
@@ -211,10 +211,26 @@ void compileFuncDecl(void) {
   eat(SB_SEMICOLON); 
 }
 
+// ProcDecls = ProcDecl ProcDecls
+// ProcDecls = eps
+void compileProcDecls(void){
+  assert("Parsing a procedure ....");
+  switch (lookAhead->tokenType) {
+  case KW_PROCEDURE:
+      compileProcDecl();
+      break;
+  //Follow = First(Block6)
+  case KW_BEGIN:
+      break;
+  default:
+      error(ERR_INVALIDPROCDECL, lookAhead->lineNo, lookAhead->colNo);
+      break;
+  }
+  assert("Procedure parsed ....");
+}
 
 // 23) ProcDecl ::= KW_PROCEDURE Ident Params SB_SEMICOLON Block SB_SEMICOLON
 void compileProcDecl(void) {
-  assert("Parsing a procedure ....");
   // TODO
   eat(KW_PROCEDURE);
   eat(TK_IDENT);
@@ -222,7 +238,6 @@ void compileProcDecl(void) {
   eat(SB_SEMICOLON);
   compileBlock();
   eat(SB_SEMICOLON);
-  assert("Procedure parsed ....");
 }
 
 // 24) Params ::= SB_LPAR Param Params2 SB_RPAR

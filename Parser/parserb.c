@@ -77,10 +77,14 @@ void compileBlock3(void) {
   else compileBlock4();
 }
 
-// 08) Block4 ::= SubDecls Block5
+// 08) Block4 ::= FunDecls Block5
+// Block4 ::= Block5
 void compileBlock4(void) {
-  compileSubDecls();
-  compileBlock5();
+  if (lookAhead->tokenType == KW_FUNCTION) {
+    compileFuncDecl();
+    compileBlock5();
+  } 
+  else compileBlock5();
 }
 
 // 09) Block5 ::= KW_BEGIN Statements KW_END

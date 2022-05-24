@@ -77,27 +77,14 @@ void compileBlock3(void) {
   else compileBlock4();
 }
 
-// 08) Block4 ::= FunDecls Block5
-// Block4 ::= Block5
+// 08) Block4 ::= SubDecls Block5
 void compileBlock4(void) {
-  if (lookAhead->tokenType == KW_FUNCTION) {
-    compileFuncDecl();
-    compileBlock5();
-  } 
-  else compileBlock5();
+  compileSubDecls();
+  compileBlock5();
 }
 
-// 09) Block5 ::= ProcsDecls Block6
-// Block5 ::= Block6
+// 09) Block5 ::= KW_BEGIN Statements KW_END
 void compileBlock5(void) {
-  if (lookAhead->tokenType == KW_PROCEDURE) {
-    compileProcDecl();
-    compileBlock6();
-  } 
-  else compileBlock6();
-}
-
-void compileBlock6(void) {
   eat(KW_BEGIN);
   compileStatements();
   eat(KW_END);
@@ -175,22 +162,7 @@ void compileSubDecls(void) {
   }
   assert("Subtoutines parsed ....");
 }
-// FunDecls ::= FunDecl FunDecls 
-// FunDecls ::= eps
-void compileFunDecls(void){
-  switch (lookAhead->tokenType) {
-  case KW_FUNCTION:
-      compileFuncDecl();
-      compileFunDecls();
-      break;
-  case KW_PROCEDURE:
-  case KW_BEGIN:
-    break;
-  default:
-    error(ERR_INVALIDFUNDECL, lookAhead->lineNo, lookAhead->colNo);
-    break;
-  }
-}
+
 // 22) FunDecl ::= KW_FUNCTION Ident Params SB_COLON BasicType SB_SEMICOLON Block SB_SEMICOLON
 void compileFuncDecl(void) {
   assert("Parsing a function ....");
@@ -206,21 +178,6 @@ void compileFuncDecl(void) {
   assert("Function parsed ....");
 }
 
-//ProcDecls ::= ProcDecl ProcDecls
-//ProcDecls ::= eps
-void compileProcDecls(void) {
-  switch (lookAhead->tokenType) {
-  case KW_PROCEDURE:
-      compileFuncDecl();
-      compileFunDecls();
-      break;
-  case KW_BEGIN:
-    break;
-  default:
-    error(ERR_INVALIDPROCDECL, lookAhead->lineNo, lookAhead->colNo);
-    break;
-  }
-}
 
 // 23) ProcDecl ::= KW_PROCEDURE Ident Params SB_SEMICOLON Block SB_SEMICOLON
 void compileProcDecl(void) {

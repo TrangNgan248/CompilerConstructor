@@ -1,0 +1,54 @@
+Program TriangleMatrix; (*Check if a square matrix is a triangle matrix*)
+CONST MAX = 15;
+Var n : Integer;
+    A : Array(.15.)(.15.) of Integer;
+    x : Integer;
+    y : Integer;
+    state : Integer;
+
+PROCEDURE INPUT;
+Var i : Integer; (*Toa do x*)
+    j : Integer; (*Toa do y*)
+Begin
+    n := READI;
+    For i := 1 To n Do
+        For j := 1 To n Do
+            A(.i.)(.j.) := READI;
+End;
+
+PROCEDURE OUTPUT;
+Var i : Integer; (*Toa do x*)
+    j : Integer; (*Toa do y*)
+Begin
+    For i := 1 To n Do
+        For j := 1 To n Do
+            CALL WRITEI(A(.i.)(.j.));
+            CALL WRITEC(' ');
+        CALL WRITELN;
+End;
+
+Begin
+    CALL INPUT;
+    CALL OUTPUT;
+    x := 2;
+    y := 1;
+    state := 1;
+    WHILE state = 1 DO
+        Begin
+            WHILE x <= n DO
+                Begin
+                    WHILE y < x DO
+                        Begin
+                            IF A(.x.)(.y.) != 0 THEN
+                                Begin
+                                    state = 0;
+                                End;
+                        End;
+                    IF x = n THEN
+                        Begin
+                            state = -1;
+                        End;
+                End;
+        End;
+    IF state = 0 THEN CALL WRITEI(0) ELSE CALL WRITEI(1);
+End.

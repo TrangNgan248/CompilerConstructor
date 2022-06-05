@@ -1,0 +1,16 @@
+Program Sum;
+
+Var a : Integer;
+    b : Integer;
+
+Function Sum ( a : Integer; b : Integer ) : Integer;
+    Begin
+        Sum := a + b;
+    End;
+
+Begin
+    a := READI;
+    b := READI;
+    CALL WRITELN;
+    CALL WRITEI( Sum(a,b) );
+End.

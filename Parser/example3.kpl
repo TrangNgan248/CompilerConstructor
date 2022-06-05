@@ -1,6 +1,5 @@
 PROGRAM  EXAMPLE3;  (* TOWER OF HANOI *)
-VAR  I2a_:INTEGER;  
-     i2a_:INTEGER;  
+VAR  I2a:INTEGER;  
      P:INTEGER;  
      Q:INTEGER;
      C:CHAR;

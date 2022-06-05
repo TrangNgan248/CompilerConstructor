@@ -197,6 +197,7 @@ void compileFunDecls(void){
   switch (lookAhead->tokenType) {
   case KW_FUNCTION:
       compileFuncDecl();
+      compileFuncDecls();
       break;
   //Follow
   case KW_PROCEDURE:
@@ -230,6 +231,7 @@ void compileProcDecls(void){
   switch (lookAhead->tokenType) {
   case KW_PROCEDURE:
       compileProcDecl();
+      compileProcDecls();
       break;
   //Follow = First(Block6)
   case KW_BEGIN:
@@ -583,40 +585,57 @@ void compileArguments(void) {
   switch (lookAhead->tokenType) {
   case SB_LPAR:
       eat(SB_LPAR);
-      compileExpression();
-      compileArguments2();
+      compileArguments1();
       eat(SB_RPAR);
       break;
-  // Follow - same as call statement as statement:
-  case SB_SEMICOLON:
-  case KW_END:
-  case KW_ELSE:
-  // Follow - term2
-  case SB_TIMES:
-  case SB_SLASH:
-  // Follow - expression3
-  // Follow (For statement)
-  case KW_TO:
-  case KW_DO:
-  // Follow (arguments2)
-  case SB_COMMA:
-  // Follow (condition2)
-  case SB_EQ:
-  case SB_NEQ:
-  case SB_LE:
-  case SB_LT:
-  case SB_GE:
-  case SB_GT:
-  // Follow (factor)
-  case SB_RPAR:
-  // Follow (indexes)
-  case SB_RSEL:
-  // Follow (if statement)
-  case KW_THEN:
-      break;
+  // // Follow - same as call statement as statement:
+  // case SB_SEMICOLON:
+  // case KW_END:
+  // case KW_ELSE:
+  // // Follow - term2
+  // case SB_TIMES:
+  // case SB_SLASH:
+  // // Follow - expression3
+  // // Follow (For statement)
+  // case KW_TO:
+  // case KW_DO:
+  // // Follow (arguments2)
+  // case SB_COMMA:
+  // // Follow (condition2)
+  // case SB_EQ:
+  // case SB_NEQ:
+  // case SB_LE:
+  // case SB_LT:
+  // case SB_GE:
+  // case SB_GT:
+  // // Follow (factor)
+  // case SB_RPAR:
+  // // Follow (indexes)
+  // case SB_RSEL:
+  // // Follow (if statement)
+  // case KW_THEN:
+  //     break;
   // Error
   default:
       error(ERR_INVALIDARGUMENTS, lookAhead->lineNo, lookAhead->colNo);
+      break;
+  }
+}
+
+void compileArguments1(void){
+  switch(lookAhead->tokenType){
+    case SB_PLUS:
+      compileExpression();
+      compileArguments2();
+      break;
+    case SB_MINUS:
+      compileExpression();
+      compileArguments2();
+      break;
+    case SB_RPAR:
+    break;
+    default:
+      compileExpression2();
       break;
   }
 }
